@@ -178,7 +178,7 @@ public class TestDragIndicator extends AbstractWebDriverTest {
         dragging = actionQueue.moveToElement(page.drop1).build();
         dragging.perform();
         assertTrue(page.indicator.isDisplayed());
-        assertTrue(page.indicator.getAttribute("class").contains(ACCEPT_CLASS));
+        Graphene.waitGui().until().element(page.indicator).attribute("class").contains(ACCEPT_CLASS);
 
         // then release
         dragging = actionQueue.release().build();
