@@ -61,7 +61,6 @@ public class TestAccordionIcons extends AbstractWebDriverTest {
 
     @Test
     @RegressionTest("https://issues.jboss.org/browse/RF-10352")
-    @Templates(value = "plain")
     public void testItemActiveLeftIcon() {
         By image = By.cssSelector(String.format(leftIcon, "1") + " img");
 
@@ -72,7 +71,6 @@ public class TestAccordionIcons extends AbstractWebDriverTest {
     }
 
     @Test
-    @Templates(value = "plain")
     public void testItemActiveRightIcon() {
         By image = By.cssSelector(String.format(rightIcon, "1") + " img");
 
@@ -83,7 +81,6 @@ public class TestAccordionIcons extends AbstractWebDriverTest {
     }
 
     @Test
-    @Templates(value = "plain")
     public void testItemDisabledLeftIcon() {
         By image = By.cssSelector(String.format(leftIcon, "4") + " img");
 
@@ -91,7 +88,6 @@ public class TestAccordionIcons extends AbstractWebDriverTest {
     }
 
     @Test
-    @Templates(value = "plain")
     public void testItemDisabledRightIcon() {
         By image = By.cssSelector(String.format(rightIcon, "4") + " img");
 
@@ -100,7 +96,6 @@ public class TestAccordionIcons extends AbstractWebDriverTest {
 
     @Test
     @IssueTracking("https://issues.jboss.org/browse/RF-10352")
-    @Templates(value = "plain")
     public void testItemInactiveLeftIcon() {
         By image = By.cssSelector(String.format(leftIcon, "3") + " img");
 
@@ -108,7 +103,6 @@ public class TestAccordionIcons extends AbstractWebDriverTest {
     }
 
     @Test
-    @Templates(value = "plain")
     public void testItemInactiveRightIcon() {
         By image = By.cssSelector(String.format(rightIcon, "3") + " img");
 
