@@ -85,32 +85,29 @@ public class Attributes<T extends AttributeEnum> {
                 }
             } else if (valueToBeSet.equals(attributeValue)) {
                 if (!element.isSelected()) {
-                    final WebElement elementToJs = element;
-                    Action jsAction = new Action() {
-                        @Override
-                        public void perform() {
-                            Utils.triggerJQ("click", elementToJs);
-                        }
-                    };
-                    MetamerPage.waitRequest(new ActionWrapper(jsAction), requestType).perform();
+                    MetamerPage.waitRequest(buildJSActionWrapper("click", element), requestType).perform();
                 }
                 return;
             } else if (attributeValue.contains(valueToBeSet)) {
                 // for image selection radios, which value contains a source url of the image
                 if (!element.isSelected()) {
-                    final WebElement elementToJs = element;
-                    Action jsAction = new Action() {
-                        @Override
-                        public void perform() {
-                            Utils.triggerJQ("click", elementToJs);
-                        }
-                    };
-                    MetamerPage.waitRequest(new ActionWrapper(jsAction), requestType).perform();
+                    MetamerPage.waitRequest(buildJSActionWrapper("click", element), requestType).perform();
                 }
                 return;
             }
         }
         throw new IllegalArgumentException("No property with value " + valueToBeSet + " was found");
+    }
+
+    private ActionWrapper buildJSActionWrapper(String event, WebElement element){
+        final WebElement elementToJs = element;
+        Action jsAction = new Action() {
+            @Override
+            public void perform() {
+                Utils.triggerJQ("click", elementToJs);
+            }
+        };
+        return new ActionWrapper(jsAction);
     }
 
     private void applySelect(WebElement selectElement, String valueToBeSet) {
