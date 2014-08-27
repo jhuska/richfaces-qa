@@ -23,12 +23,15 @@ package org.richfaces.tests.metamer.ftest.webdriver;
 
 import java.util.List;
 
+import static org.richfaces.tests.metamer.ftest.AbstractWebDriverTest.ActionWrapper;
+
 import org.jboss.arquillian.graphene.Graphene;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.support.ui.Select;
 import org.richfaces.fragment.common.Event;
 import org.richfaces.fragment.common.Utils;
@@ -65,7 +68,8 @@ public class Attributes<T extends AttributeEnum> {
         return getAttributesFor(driver, "");
     }
 
-    public static <T extends AttributeEnum> Attributes<T> getAttributesFor(FutureTarget<WebDriver> driver, String attributeTableID) {
+    public static <T extends AttributeEnum> Attributes<T> getAttributesFor(FutureTarget<WebDriver> driver,
+        String attributeTableID) {
         return new Attributes<T>(driver, attributeTableID);
     }
 
@@ -81,13 +85,27 @@ public class Attributes<T extends AttributeEnum> {
                 }
             } else if (valueToBeSet.equals(attributeValue)) {
                 if (!element.isSelected()) {
-                    MetamerPage.waitRequest(element, requestType).click();
+                    final WebElement elementToJs = element;
+                    Action jsAction = new Action() {
+                        @Override
+                        public void perform() {
+                            Utils.triggerJQ("click", elementToJs);
+                        }
+                    };
+                    MetamerPage.waitRequest(new ActionWrapper(jsAction), requestType).perform();
                 }
                 return;
             } else if (attributeValue.contains(valueToBeSet)) {
-                //for image selection radios, which value contains a source url of the image
+                // for image selection radios, which value contains a source url of the image
                 if (!element.isSelected()) {
-                    MetamerPage.waitRequest(element, requestType).click();
+                    final WebElement elementToJs = element;
+                    Action jsAction = new Action() {
+                        @Override
+                        public void perform() {
+                            Utils.triggerJQ("click", elementToJs);
+                        }
+                    };
+                    MetamerPage.waitRequest(new ActionWrapper(jsAction), requestType).perform();
                 }
                 return;
             }
@@ -121,8 +139,8 @@ public class Attributes<T extends AttributeEnum> {
     }
 
     /**
-     * Wait for page to load after attribute was set and then ckecks if it
-     * really was set. If it was not set, then IllegalStateException is thrown.
+     * Wait for page to load after attribute was set and then ckecks if it really was set. If it was not set, then
+     * IllegalStateException is thrown.
      *
      * @param propertyName string value of attribute
      * @param value value that the attribute should have
@@ -162,7 +180,8 @@ public class Attributes<T extends AttributeEnum> {
         // For example, 'for' is reserved java word, but also a
         // valid richfaces attribute. So we use this attribute name in upper case in enum
         String propertyName = attribute.toString();
-        String propertyNameCorrect = (propertyName.equals(propertyName.toUpperCase()) ? propertyName.toLowerCase() : propertyName);
+        String propertyNameCorrect = (propertyName.equals(propertyName.toUpperCase()) ? propertyName.toLowerCase()
+            : propertyName);
         StaleElementReferenceException exception = null;
         for (int i = 0; i < TRIES; i++) {
             try {
@@ -219,9 +238,9 @@ public class Attributes<T extends AttributeEnum> {
             }
         }
         if (foundNullSelectionOption) {
-            //workaround for String options with value="" , used in attributes like
-            //action, actionListener, model...
-            //they do not preserve its selected state
+            // workaround for String options with value="" , used in attributes like
+            // action, actionListener, model...
+            // they do not preserve its selected state
             return NULLSTRING;
         }
         throw new IllegalArgumentException("No selected choice for this attribute found.");
@@ -274,8 +293,7 @@ public class Attributes<T extends AttributeEnum> {
     }
 
     /**
-     * Sets attribute and checks if it was really set (waits for page
-     * re-render).
+     * Sets attribute and checks if it was really set (waits for page re-render).
      *
      * @param propertyName
      * @param value
@@ -284,12 +302,13 @@ public class Attributes<T extends AttributeEnum> {
         // convert to lowercase if needed
         // For example, 'for' is reserved java word, but also a
         // valid richfaces attribute. So we use this attribute name in upper case in enum
-        String propertyNameCorrect = (propertyName.equals(propertyName.toUpperCase()) ? propertyName.toLowerCase() : propertyName);
+        String propertyNameCorrect = (propertyName.equals(propertyName.toUpperCase()) ? propertyName.toLowerCase()
+            : propertyName);
 
         String valueAsString = (value == null ? NULLSTRING : value.toString());
         valueAsString = valueAsString.replaceAll("\"", "'");
 
-        //element for all types of input elements
+        // element for all types of input elements
         By by = getCssSelectorForProperty(propertyNameCorrect);
         WebElement element = getBrowser().findElement(by);
         Graphene.waitModel().until().element(element).is().visible();
