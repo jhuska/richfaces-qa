@@ -921,7 +921,7 @@ FSF site: http://www.fsf.org. -->
             <properties>
                 <metamer.classifier>jbas71</metamer.classifier>
                 <showcase.classifier>jbas71</showcase.classifier>
-                <profile.eap>6.2</profile.eap>
+                <version.eap>6.2.4-patched</version.eap>
             </properties>
             <dependencies>
                 <dependency>
@@ -962,7 +962,7 @@ FSF site: http://www.fsf.org. -->
             <properties>
                 <metamer.classifier>jbas71</metamer.classifier>
                 <showcase.classifier>jbas71</showcase.classifier>
-                <profile.eap>6.3</profile.eap>
+                <version.eap>6.3.0</version.eap>
             </properties>
             <dependencies>
                 <dependency>
@@ -1862,6 +1862,9 @@ FSF site: http://www.fsf.org. -->
                         <groupId>org.richfaces.tests.mojo.plugin</groupId>
                         <artifactId>jenkins-plugin</artifactId>
                         <version>1.0-SNAPSHOT</version>
+                        <configuration>
+                            <eapVersion>${version.eap}</eapVersion>
+                        </configuration>
                         <executions>
                             <execution>
                                 <phase>process-test-classes</phase>
