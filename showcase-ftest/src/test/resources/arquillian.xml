@@ -116,7 +116,7 @@
     <extension qualifier="visual-testing">
         <property name="firstRun">false</property>
         <property name="screenshotsRepository">/tmp/visual-testing</property>
-        <property name="lastValidScreenshots">2014-08-17_10-59-44-704</property>
+        <property name="lastValidScreenshots">2014-08-24_15-50-04-567</property>
     </extension>
     
     <extension qualifier="screenshooter">

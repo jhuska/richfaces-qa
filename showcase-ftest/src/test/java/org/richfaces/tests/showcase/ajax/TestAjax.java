@@ -45,7 +45,7 @@ public class TestAjax extends AbstractWebDriverTest {
     public void testTypeSomeStringToTheInputAndCheckTheOutput() {
         page.getInput().click();
         page.getInput().clear();
-        String toWrite = "text";
+        String toWrite = "tex";
         for (char ch: toWrite.toCharArray()) {
             Graphene.guardAjax(page.getInput()).sendKeys(Character.toString(ch));
         }
